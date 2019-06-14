@@ -33,7 +33,7 @@ public class UserController {
 	public String createUser(@Valid User formUser, Model model) {
 		userService.saveUser(formUser); 
 		model.addAttribute("user", formUser);
-		return "redirect:/users";
+		return "/users/welcome";
 	}	
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
@@ -52,6 +52,10 @@ public class UserController {
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);
 		return "/users/info";
+	}
+	@GetMapping("/welcome")
+	public String welcomeUser() {
+		return "/users/welcome";
 	}
 	
 	@PutMapping("/{id}")

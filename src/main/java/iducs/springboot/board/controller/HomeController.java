@@ -37,7 +37,9 @@ public class HomeController {
 		return "/questions/register";
 	}	
 	@GetMapping("/users/login-form")
-	public String loginForm(Model model) {
+	public String loginForm(Model model, HttpSession session) {
+		if(session.getAttribute("user") != null)
+			return "redirect:/";
 		return "/users/login";
 	}
 	@PostMapping("/users/login")
@@ -57,7 +59,9 @@ public class HomeController {
 	}	
 	
 	@GetMapping("/users/form") // 등록폼은 form URL을 가지도록 함, 다른 폼은 이름을 명명하기로 수정함
-	public String registerForm() {
+	public String registerForm(HttpSession session) {
+		if(session.getAttribute("user") != null)
+			return "redirect:/";
 		return "/users/register";
 	}
 	@GetMapping("/logout")

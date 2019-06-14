@@ -38,22 +38,23 @@
                      <ul class="blog-info-link mt-3 mb-4">
                      	<li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
                         <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'yyyy년 MM월 dd일 HH:mm')}"></span></a></li>
-                        <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>
-                        <li th:if="${isOwner}"><a href="/questions/edit"><i class="far fa-comments"></i> Edit</a></li>
+                        <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>   
+                        <li><a th:href="@{'/questions/{id}/form'(id=${id})}"><i  class="far fa-comments"></i> 수정</a></li>        
                      </ul>
                      <div class="quote-wrapper">
                         <div class="quotes" th:text="${question.contents}">
                            
                         </div>
                      </div>
-                     <p>
-                        MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                        should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                        fraction of the camp price. However, who has the willpower to actually sit through a
-                        self-imposed MCSE training. who has the willpower to actually
-                     </p>
+                     <div class="button-group-area" align="right">    
+		             	<form th:action="@{'/questions/{id}'(id=${id})}" th:method="delete">		    
+		             		<input type="hidden" name="id" th:value="${id}"/>
+		             		<button th:if="${isOwner}" type="submit" class="genric-btn success"> 삭제</button>
+		             	</form>	             	
+		             </div>
                   </div>
                </div>
+               <br>
                <div class="navigation-top">
                   <div class="d-sm-flex justify-content-between text-center">
                      <p class="like-info"><span class="align-middle"><i class="far fa-heart"></i></span> Lily and 4

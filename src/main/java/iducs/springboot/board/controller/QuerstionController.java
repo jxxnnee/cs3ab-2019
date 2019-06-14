@@ -53,22 +53,25 @@ public class QuerstionController {
 		User sessionUser = (User) session.getAttribute("user");
 		Question question = questionService.getQuestionById(id);
 		User writer = question.getWriter();
-		if(sessionUser.equals(writer))
-			model.addAttribute("isOwner", true);
-		else
-			model.addAttribute("isOwner", false);
+		if(sessionUser != null)
+			if(sessionUser.equals(writer))
+				model.addAttribute("isOwner", true);
+		
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
 	@GetMapping("/{id}/form")
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
+		User wirter = question.getWriter();
 		model.addAttribute("question", question);
-		return "/questions/info";
+		return "/questions/edit";
 	}
 	@PutMapping("/{id}")
-	public String updateQuestionById(@PathVariable(value = "id") Long id, String title, String contents, Model model) {
+	public String updateQuestionById(@PathVariable(value = "id") Long id, @Valid Question formQuestion, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
+		question.setTitle(formQuestion.getTitle());
+		question.setContents(formQuestion.getContents());
 		questionService.updateQuestion(question);		
 		return "redirect:/questions/" + id;
 	}
