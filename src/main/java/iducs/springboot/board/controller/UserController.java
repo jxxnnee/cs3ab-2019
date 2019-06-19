@@ -37,8 +37,8 @@ public class UserController {
 	}	
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
-		User sessionUser = (User) session.getAttribute("user");
-		if(HttpSessionUtils.inNotLogined(sessionUser))
+		
+		if(HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/login-form";
 		model.addAttribute("users", userService.getUsers());
 		return "/users/list";
@@ -47,7 +47,7 @@ public class UserController {
 	@GetMapping("/{id}")
 	public String getUserById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
-		if(HttpSessionUtils.inNotLogined(sessionUser))
+		if(HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/login-form";
 		User user = userService.getUserById(id);
 		model.addAttribute("user", user);

@@ -25,6 +25,7 @@ import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
 import iducs.springboot.board.service.QuestionService;
 import iducs.springboot.board.service.UserService;
+import iducs.springboot.board.util.HttpSessionUtils;
 
 @Controller
 @RequestMapping("/questions")
@@ -33,6 +34,9 @@ public class QuerstionController {
 	
 	@GetMapping("")
 	public String getAllUser(Model model, HttpSession session) {
+		User writer = (User) session.getAttribute("user");
+		if(writer != null)
+			model.addAttribute("isLogined", writer);
 		List<Question> questions = questionService.getQuestions();
 		model.addAttribute("questions", questions);
 		return "/questions/list"; 
@@ -53,13 +57,17 @@ public class QuerstionController {
 		User sessionUser = (User) session.getAttribute("user");
 		Question question = questionService.getQuestionById(id);
 		User writer = question.getWriter();
-		if(sessionUser != null)
-			if(sessionUser.equals(writer))
-				model.addAttribute("isOwner", true);
 		
+		if(sessionUser == null)
+			return "redirect:/users/login-form";
+		
+		if(sessionUser.equals(writer))
+			model.addAttribute("isOwner", true);
+				
 		model.addAttribute("question", question);
 		return "/questions/info";
 	}
+	
 	@GetMapping("/{id}/form")
 	public String getUpdateForm(@PathVariable(value = "id") Long id, Model model) {
 		Question question = questionService.getQuestionById(id);
@@ -67,6 +75,7 @@ public class QuerstionController {
 		model.addAttribute("question", question);
 		return "/questions/edit";
 	}
+	
 	@PutMapping("/{id}")
 	public String updateQuestionById(@PathVariable(value = "id") Long id, @Valid Question formQuestion, String title, String contents, Model model) {
 		Question question = questionService.getQuestionById(id);
