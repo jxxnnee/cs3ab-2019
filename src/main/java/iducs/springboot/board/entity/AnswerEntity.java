@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import iducs.springboot.board.domain.Answer;
-import iducs.springboot.board.domain.Question;
+import iducs.springboot.board.domain.Board;
 
 @Entity
 @Table(name = "answer")
@@ -27,7 +27,7 @@ public class AnswerEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="fk_answer_question")
-	private QuestionEntity question;
+	private BoardEntity question;
 	
 	@Lob
 	private String contents;
@@ -51,7 +51,7 @@ public class AnswerEntity {
 		userEntity.buildEntity(answer.getWriter());
 		writer = userEntity;
 		
-		QuestionEntity quesitonEntity = new QuestionEntity();
+		BoardEntity quesitonEntity = new BoardEntity();
 		quesitonEntity.buildEntity(answer.getQuestion());
 		question = quesitonEntity;
 		

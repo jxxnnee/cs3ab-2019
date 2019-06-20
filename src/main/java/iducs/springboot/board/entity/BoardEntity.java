@@ -18,12 +18,12 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 
-import iducs.springboot.board.domain.Question;
+import iducs.springboot.board.domain.Board;
 import iducs.springboot.board.domain.User;
 
 @Entity
-@Table(name = "question")
-public class QuestionEntity {
+@Table(name = "board")
+public class BoardEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id; // database에서 sequence number, primary key 역할
@@ -34,9 +34,11 @@ public class QuestionEntity {
 	@JoinColumn(name="fk_question_writer")
 	private UserEntity writer;
 	
-	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy="question", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@OrderBy("createTime DESC")
 	private List<AnswerEntity> answer = new ArrayList<AnswerEntity>();
+	
+	private long size;
 	
 
 	@Lob
@@ -79,16 +81,22 @@ public class QuestionEntity {
 	public void setCreateTime(LocalDateTime createTime) {
 		this.createTime = createTime;
 	}
-	public Question buildDomain() {
-		Question question = new Question();
+	public long getSize() {
+		this.size = answer.size();
+		
+		return this.size;
+	}
+	public Board buildDomain() {
+		Board question = new Board();
 		question.setId(id);
 		question.setTitle(title);
 		question.setWriter(writer.buildDomain());
 		question.setContents(contents);
 		question.setCreateTime(createTime);
+		question.setSize(answer.size());
 		return question;
 	}
-	public void buildEntity(Question question) {
+	public void buildEntity(Board question) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.buildEntity(question.getWriter());
 		

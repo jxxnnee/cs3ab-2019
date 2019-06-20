@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import iducs.springboot.board.domain.User;
-import iducs.springboot.board.entity.QuestionEntity;
+import iducs.springboot.board.entity.BoardEntity;
 import iducs.springboot.board.entity.UserEntity;
 import iducs.springboot.board.exception.ResourceNotFoundException;
 import iducs.springboot.board.repository.UserRepository;
@@ -40,9 +42,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsers() {
+	public List<User> getUsers(Long pageNo) {
+		PageRequest pageRequest = PageRequest.of((int) (pageNo - 1), 3, new Sort(Sort.Direction.DESC, "userId"));
+		Page<UserEntity> entities = repository.findAll(pageRequest);
 		List<User> users = new ArrayList<User>();
-		List<UserEntity> entities = repository.findAll(new Sort(Sort.Direction.DESC, "userId"));
 		for(UserEntity entity : entities) {
 			User user = entity.buildDomain();
 			users.add(user);

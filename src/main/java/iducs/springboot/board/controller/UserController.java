@@ -36,23 +36,40 @@ public class UserController {
 		return "/users/welcome";
 	}	
 	@GetMapping("")
-	public String getAllUser(Model model, HttpSession session) {
-		
-		if(HttpSessionUtils.isLoginUser(session))
+	public String getAllUser(Model model, HttpSession session, Long pageNo) {
+		if(pageNo == null)
+			pageNo = new Long(1);
+		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/login-form";
-		model.addAttribute("users", userService.getUsers());
+		model.addAttribute("users", userService.getUsers(pageNo));
 		return "/users/list";
 		
 	}	
+	
 	@GetMapping("/{id}")
 	public String getUserById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
-		if(HttpSessionUtils.isLoginUser(session))
+		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/login-form";
 		User user = userService.getUserById(id);
+		if(!sessionUser.equals(user))
+			return "redirect:/";
 		model.addAttribute("user", user);
 		return "/users/info";
 	}
+	
+	@GetMapping("/{id}/form")
+	public String getUserInfoById(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+		User sessionUser = (User) session.getAttribute("user");
+		if(!HttpSessionUtils.isLoginUser(session))
+			return "redirect:/users/login-form";
+		User user = userService.getUserById(id);
+		model.addAttribute("user", user);
+		if(sessionUser.equals(user))
+			return "users/info";
+		return "/users/userinfo";
+	}
+	
 	@GetMapping("/welcome")
 	public String welcomeUser() {
 		return "/users/welcome";

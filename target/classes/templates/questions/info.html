@@ -36,7 +36,7 @@
                   <div class="blog_details">
                      <h2>제목 : <span th:text="${question.title}"></span></h2>
                      <ul class="blog-info-link mt-3 mb-4">
-                     	<li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
+                     	<li><a th:href="@{'/users/{id}/form'(id=${question.writer.id})}"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
                         <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'yyyy년 MM월 dd일 HH:mm')}"></span></a></li>
                         <li><a href="#comment-area"><i class="far fa-comments"></i> 03 Comments</a></li>   
                         <li th:if="${isOwner}"><a th:href="@{'/questions/{id}/form'(id=${id})}"><i  class="far fa-comments"></i> 수정</a></li>        
@@ -125,7 +125,7 @@
                   </div>
                </div>
                <div class="comments-area">
-                  <h4><a name="comment-area"></a>05 Comments</h4>
+                  <h4><a name="comment-area" th:text="@{'{size} Comments'(size=${size})}" ></a></h4>
                   <div class="comment-list" th:each="answer : ${question.answers}">
                      <div class="single-comment justify-content-between d-flex">
                         <div class="user justify-content-between d-flex">
@@ -133,17 +133,25 @@
                               <p class="comment">
                                 	<span th:text="${answer.contents}"></span>
                               </p>
-                              <div class="d-flex justify-content-between">
-                                 <div class="d-flex align-items-center">
+                              <div class="d-flex justify-content-between col-md-12">
+                                 <div class="d-flex align-items-center col-md-10">
                                     <h5>
-                                       <a href="#"><span th:text="${answer.writer.userId}"></span></a>
+                                       <a th:href="@{'/users/{id}/form'(id=${question.writer.id})}"><span th:text="${answer.writer.userId}"></span></a>
                                     </h5>
                                     <p class="date"><span th:text="${#temporals.format(answer.createTime, 'yy년MM월dd일HH:mm')}"></span></p>
                                  </div>
-                                 <ul class="blog-info-link mt-3 mb-4">
-		                     	 	<li th:if="${isOwner}"><a href="#"><i class="far fa-edit"></i> Edit</a></li>
-		                         	<li th:if="${isOwner}"><a href="#"><i class="far fa-trash-alt"></i> Delete</a></li>
-		                         </ul>	
+                                 <div class="col-md-1">
+                                 </div>
+                                 <div class="col-md-4" align="right">
+                                 	<a th:if="${sessionUser.id} == ${answer.writer.id}" th:href="@{'/questions/{questionId}/answers/{id}/form'(id=${answer.id}, questionId=${id})}" 
+                                 		class="genric-btn success small" ><font color="#FFFFFF">수정</font></a>
+					             </div>
+					             <div class="col-md-4" align="right">
+                                 	<form th:action="@{'/questions/{questionId}/answers/{id}'(id=${answer.id}, questionId=${id})}" th:method="delete">		    
+					             		<input type="hidden" name="id" th:value="${id}"/>
+					             		<button th:if="${sessionUser.id} == ${answer.writer.id}" type="submit" class="genric-btn success small"> 삭제</button>
+					             	</form>	
+		                         </div>	
                               </div>                              
                            </div>
                         </div>

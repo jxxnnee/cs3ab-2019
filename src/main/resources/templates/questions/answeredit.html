@@ -31,11 +31,11 @@
 					<div class="col-lg-2 col-md-2 mt-sm-30">
 					</div>
 					<div class="col-lg-8">
-				          <form class="form-contact contact_form" th:action="@{'/questions/{id}'(id=${id})}" th:method="put" id="contactForm" novalidate="novalidate">
+				          <form class="form-contact contact_form" th:action="@{'/questions/{questionId}/answers/{id}'(id=${answer.id}, questionId=${id})}" th:method="put" id="contactForm" novalidate="novalidate">
 				            <div class="row">
 				              <div class="col-sm-6">
 				                <div class="form-group">
-				                  <input class="form-control"  th:value="${question.writer.userId}" id="writer" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name" ReadOnly>
+				                  <input class="form-control"  th:value="${answer.writer.userId}" id="writer" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name" ReadOnly>
 				                </div>
 				              </div>
 				              <!--
@@ -46,16 +46,10 @@
 				              </div>
 				              -->
 				              <div class="col-12">
-				                <div class="form-group">
-				                  <input class="form-control" th:value="${question.title}" name="title" id="title" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
-				                </div>
-				              </div>
-				              <div class="col-12">
 				                <div class="form-group">				                  
-				                    <textarea class="form-control w-100" th:field="${question.contents}" name="contents" id="contents" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
+				                    <textarea class="form-control w-100" th:field="${answer.contents}" name="contents" id="contents" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
 				                </div>
 				              </div>
-				              
 				            </div>
 				            <div class="form-group mt-3">
 				              <button type="submit" class="genric-btn success"> 수정하기</button>

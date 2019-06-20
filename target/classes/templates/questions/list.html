@@ -50,7 +50,7 @@
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="far fa-user"></i> <span th:text="${question.writer.userId}"></span></a></li>
                                     <li><a href="#"><i class="far fa-clock"></i> <span th:text="${#temporals.format(question.createTime, 'YY-MM-dd ')}"></span></a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
+                                   	<li><a href="#"><i class="far fa-comments"></i> <span th:text="@{'{size} Comments'(size=${question.size})}"></span></a></li>
                                 </ul>
                             </div>
                         </article>
@@ -64,12 +64,14 @@
                                         <i class="ti-angle-left"></i>
                                     </a>
                                 </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
+                                <div>
+	                                <li class="page-item">
+	                                    <a href="#" class="page-link">1</a>
+	                                </li>
+	                                <li class="page-item active">
+	                                    <a href="#" class="page-link">2</a>
+	                                </li>
+                                </div>
                                 <li class="page-item">
                                     <a href="#" class="page-link" aria-label="Next">
                                         <i class="ti-angle-right"></i>

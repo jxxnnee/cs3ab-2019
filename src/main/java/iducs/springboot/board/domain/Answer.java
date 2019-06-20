@@ -6,12 +6,13 @@ public class Answer {
 
 	private long id; // primary key
 	private User writer; // 글 작성자
-	private Question question; // 
+	private Board question; // 
 	private String contents;
 	private LocalDateTime createTime;
+	private long size;
 	
 	public Answer() {}
-	public Answer(User writer, String contents, Question question) {
+	public Answer(User writer, String contents, Board question) {
 		super();
 		this.writer = writer;
 		this.question = question;
@@ -35,11 +36,11 @@ public class Answer {
 		this.writer = writer;
 	}
 	
-	public Question getQuestion() {
+	public Board getQuestion() {
 		return question;
 	}
 	
-	public void setQuestion(Question question) {
+	public void setQuestion(Board question) {
 		this.question = question;
 	}
 	
@@ -58,6 +59,8 @@ public class Answer {
 	public void setCreateTime(LocalDateTime createTime) {
 		this.createTime = createTime;
 	}
+	
+	
 	
 	public boolean isSameUser(User user, User writer) {
 		if(user.equals(writer))

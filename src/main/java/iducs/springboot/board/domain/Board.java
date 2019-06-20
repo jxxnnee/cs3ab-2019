@@ -3,16 +3,17 @@ package iducs.springboot.board.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Question {
+public class Board {
 	private long id; // primary key
 	private String title; 
 	private User writer;	
 	private String contents;
 	private LocalDateTime createTime;
 	private List<Answer> answers;
+	private long size;
 	
-	public Question() {}
-	public Question(String title, User writer, String contents) {
+	public Board() {}
+	public Board(String title, User writer, String contents) {
 		super();
 		this.title = title;
 		this.writer = writer;
@@ -65,5 +66,12 @@ public class Question {
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
+	public long getSize() {
+		return size;
+	}
+	public void setSize(long size) {
+		this.size = size;
+	}
+	
 	
 }

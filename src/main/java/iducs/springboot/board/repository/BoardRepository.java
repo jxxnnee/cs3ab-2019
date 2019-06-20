@@ -8,14 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import iducs.springboot.board.entity.QuestionEntity;
+import iducs.springboot.board.entity.BoardEntity;
 import iducs.springboot.board.entity.UserEntity;
 
 
-public interface QuestionRepository 
-	extends JpaRepository<QuestionEntity, Long> {	
+public interface BoardRepository 
+	extends JpaRepository<BoardEntity, Long> {	
 	//List<QuestionEntity> findAllOrderByCreateTime();
 	
-	List<QuestionEntity> findAll(Sort sort); 
-	Page<QuestionEntity> findAll(Pageable pageable); 
+	List<BoardEntity> findAll(Sort sort); 
+	Page<BoardEntity> findAll(Pageable pageable); 
 }
